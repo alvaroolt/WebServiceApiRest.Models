@@ -13,6 +13,7 @@ namespace WebServiceApiRest.Models
         public int id { get; set; }
         public string name { get; set; }
         public string password { get; set; }
+
         public User() { }
 
         public User(int id, string name, string password)
