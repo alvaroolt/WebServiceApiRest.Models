@@ -44,5 +44,12 @@ namespace WebServiceApiRest.Models
         public int ldoc_varia_notas { get; set; }
         public int ldoc_err_prn { get; set; }
         public int ldoc_usuario { get; set; }
+
+        public Ldocumentos() { }
+
+        public Ldocumentos(Int64 ldoc_id)
+        {
+            this.ldoc_id = ldoc_id;
+        }
     }
 }

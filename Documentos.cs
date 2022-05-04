@@ -65,7 +65,7 @@ namespace WebServiceApiRest.Models
 
         public Documentos() { }
 
-        public Documentos(int doc_id)
+        public Documentos(Int64 doc_id)
         {
             this.doc_id = doc_id;
         }
