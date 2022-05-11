@@ -14,7 +14,7 @@ namespace WebServiceApiRest.Models
         public string doc_serie { get; set; }
         [Required]
         public int doc_num { get; set; }
-        public string doc_tipo {get; set; }
+        public string doc_tipo { get; set; }
         [Required]
         public int doc_mesa { get; set; }
         [Required]
@@ -63,11 +63,31 @@ namespace WebServiceApiRest.Models
         public int doc_abonado { get; set; }
         public List<Ldocumentos> listdoc { get; set; }
 
-        public Documentos() { }
+        public Documentos()
+        {
+            this.doc_serie = "MESA";
+            this.doc_tipo = "TICKET";
+            this.doc_fecha = DateTime.Now;
+            this.doc_num = 1;
+            this.doc_mesa = 1;
+            this.doc_terminal = 1;
+            this.doc_cliente = 1;
+            this.doc_iva_id = 1;
+            this.doc_bloqueado = 1;
+        }
 
         public Documentos(Int64 doc_id)
         {
             this.doc_id = doc_id;
+            this.doc_serie = "MESA";
+            this.doc_tipo = "TICKET";
+            this.doc_fecha = DateTime.Now;
+            this.doc_num = 1;
+            this.doc_mesa = 1;
+            this.doc_terminal = 1;
+            this.doc_cliente = 1;
+            this.doc_iva_id = 1;
+            this.doc_bloqueado = 1;
         }
     }
 }
