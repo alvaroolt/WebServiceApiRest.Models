@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace WebServiceApiRest.Models.Response
 {
-    public class Respuesta
+    public class Respuesta<T>
     {
         // 1 éxito / 0 error
         public int Exito { get; set; }
         public string Mensaje { get; set; }
-        public List<Documentos> Data { get; set; }
+        public T Data { get; set; }
 
         public Respuesta()
         {

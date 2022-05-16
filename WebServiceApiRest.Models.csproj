@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="Articulos.cs" />
     <Compile Include="Documentos.cs" />
+    <Compile Include="Familias_art.cs" />
     <Compile Include="Ldocumentos.cs" />
     <Compile Include="Objeto_salon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
