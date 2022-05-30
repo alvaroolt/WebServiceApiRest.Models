@@ -52,6 +52,7 @@
     <Compile Include="Objeto_salon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Respuesta.cs" />
+    <Compile Include="Terminal.cs" />
     <Compile Include="Usuarios.cs" />
   </ItemGroup>
   <ItemGroup>
