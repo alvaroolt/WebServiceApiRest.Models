@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebServiceApiRest.Models.Response;
 
 namespace WebServiceApiRest.Models
 {
@@ -50,6 +52,65 @@ namespace WebServiceApiRest.Models
         public Ldocumentos(Int64 ldoc_id)
         {
             this.ldoc_id = ldoc_id;
+        }
+
+        public Ldocumentos getLDocumento(int idLDocumento)
+        {
+            try
+            {
+                using (MySqlConnection conexion = Conexion.getInstance().ConexionDB())
+                {
+                    MySqlCommand cmd = null;
+                    MySqlDataReader dr = null;
+
+                    //se abre la conexión
+                    conexion.Open();
+
+                    // carga la línea de documento
+                    cmd = new MySqlCommand("SELECT * FROM ldocumentos WHERE ldoc_id = @idLDocumento", conexion);
+                    cmd.Parameters.AddWithValue("@idLDocumento", idLDocumento);
+
+                    Ldocumentos objLDocumento = new Ldocumentos();
+                    dr = cmd.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        objLDocumento.ldoc_id = Convert.ToInt64(dr["ldoc_id"].ToString());
+                        objLDocumento.ldoc_doc_id = Convert.ToInt64(dr["ldoc_doc_id"].ToString());
+                        objLDocumento.ldoc_tipo = dr["ldoc_tipo"].ToString();
+                        objLDocumento.ldoc_linea = Convert.ToInt32(dr["ldoc_linea"].ToString());
+                        objLDocumento.ldoc_art_id = Convert.ToInt32(dr["ldoc_art_id"].ToString());
+                        objLDocumento.ldoc_descripcion = dr["ldoc_descripcion"].ToString();
+                        objLDocumento.ldoc_cantidad = Convert.ToDouble(dr["ldoc_cantidad"].ToString());
+                        objLDocumento.ldoc_pvp = Convert.ToDouble(dr["ldoc_pvp"].ToString());
+                        objLDocumento.ldoc_dto = Convert.ToDouble(dr["ldoc_dto"].ToString());
+                        objLDocumento.ldoc_cdto = Convert.ToDouble(dr["ldoc_cdto"].ToString());
+                        objLDocumento.ldoc_importe = Convert.ToDouble(dr["ldoc_importe"].ToString());
+                        objLDocumento.ldoc_importe_pvp = Convert.ToDouble(dr["ldoc_importe_pvp"].ToString());
+                        objLDocumento.ldoc_iva = Convert.ToDouble(dr["ldoc_iva"].ToString());
+                        objLDocumento.ldoc_civa = Convert.ToDouble(dr["ldoc_civa"].ToString());
+                        objLDocumento.ldoc_tipo_iva = Convert.ToInt32(dr["ldoc_tipo_iva"].ToString());
+                        objLDocumento.ldoc_cant_prn = Convert.ToInt32(dr["ldoc_cant_prn"].ToString());
+                        objLDocumento.ldoc_ter_id = Convert.ToInt32(dr["ldoc_ter_id"].ToString());
+                        if (dr["ldoc_varia_notas"].ToString() == "")
+                        {
+                            objLDocumento.ldoc_varia_notas = 0;
+                        }
+                        else
+                        {
+                            objLDocumento.ldoc_varia_notas = Convert.ToInt32(dr["ldoc_varia_notas"].ToString());
+                        }
+                        objLDocumento.ldoc_err_prn = Convert.ToInt32(dr["ldoc_err_prn"].ToString());
+                        objLDocumento.ldoc_usuario = Convert.ToInt32(dr["ldoc_usuario"].ToString());
+                    }
+
+                    return objLDocumento;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

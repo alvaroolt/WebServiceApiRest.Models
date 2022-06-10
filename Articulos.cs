@@ -31,6 +31,7 @@ namespace WebServiceApiRest.Models
         public int art_fav3 { get; set; }
         public double art_inc_comb { get; set; }
         public string art_prn_auxiliar2 { get; set; }
+        public double art_pvp { get; set; }
 
         public Articulos()
         { }
