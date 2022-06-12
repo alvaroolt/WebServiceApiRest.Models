@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebServiceApiRest.Models
 {
+    // la clase Articulos recoge todos los campos con la información de la tabla artículos de la BD.
+    // se utiliza para visualizar los artículos disponibles a añadir a la mesa, y para añadirlos posteriormente.
     public class Articulos
     {
         [Key]

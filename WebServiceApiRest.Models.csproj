@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Articulos.cs" />
+    <Compile Include="Codebars.cs" />
     <Compile Include="Configuracion.cs" />
     <Compile Include="Documentos.cs" />
     <Compile Include="Familias_art.cs" />

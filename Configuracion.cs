@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebServiceApiRest.Models
 {
+    // la clase Configuracion recoge todos los campos con la información de la tabla configuración de la BD
+    // estos datos se utilizan para configurar determinados aspectos de nuestro programa, como por ejemplo,
+    // qué tarifa se asigna a cada salón.
     public class Configuracion
     {
         [Key]

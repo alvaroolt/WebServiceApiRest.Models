@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebServiceApiRest.Models
+﻿namespace WebServiceApiRest.Models
 {
+
+    // la clase Objetos_salon recoge el campo objsalon_orden (el número de la mesa/objeto de salón) con la información de la tabla Objetos_salon de la BD.
     public class Objeto_salon
     {
         public int objsalon_orden { get; set; }

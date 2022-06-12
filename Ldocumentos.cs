@@ -1,14 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebServiceApiRest.Models.Response;
 
 namespace WebServiceApiRest.Models
 {
+    // la clase LDocumentos recoge todos los campos con la información de la tabla LDocumentos de la BD.
+    // LDocumentos se asocia a cada fila que se encuentra en un documento. Estas filas recogen datos como
+    // el precio del artículo que se asocia a la mesa y de qué tipo de artículo se trata
     public class Ldocumentos
     {
         [Key]
@@ -54,6 +53,8 @@ namespace WebServiceApiRest.Models
             this.ldoc_id = ldoc_id;
         }
 
+        // getLDocumento es utilizado para obtener la información de LDocumentos según su id.
+        // Este método se utiliza a nivel de API.
         public Ldocumentos getLDocumento(int idLDocumento)
         {
             try

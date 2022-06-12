@@ -6,6 +6,9 @@ using WebServiceApiRest.Models.Response;
 
 namespace WebServiceApiRest.Models
 {
+    // la clase Documentos recoge todos los campos con la información de la tabla Documentos de la BD.
+    // estos Documentos son la cabecera de los artículos solicitados en las mesas o "pedidos". 
+    // Los Documentos tienen asociados LDocumentos, los cuáles son las filas (cada artículo asignado a la mesa).
     public class Documentos
     {
         [Key]
@@ -89,11 +92,14 @@ namespace WebServiceApiRest.Models
             doc_iva_id = 1;
             doc_bloqueado = 1;
         }
-
+        
+        // getDocumento es utilizado para obtener la información de Documentos según su id.
+        // Este método se utiliza a nivel de API.
         public Documentos getDocumento(int idDocumento)
         {
             try
             {
+                // se instancia la conexión
                 using (MySqlConnection conexion = Conexion.getInstance().ConexionDB())
                 {
                     MySqlCommand cmd = null;
@@ -104,25 +110,31 @@ namespace WebServiceApiRest.Models
 
                     // carga el documento y sus lineas
                     cmd = new MySqlCommand("SELECT doc.*,ldoc.* FROM documentos AS doc LEFT JOIN ldocumentos AS LDOC ON doc.DOC_ID = LDOC.LDOC_DOC_ID WHERE doc.DOC_ID = @idDocumento", conexion);
-                    //se le asigna el valor de mesa a @orden
+                    //se le asigna el valor de idDocumento a @idDocumento
                     cmd.Parameters.AddWithValue("@idDocumento", idDocumento);
 
-                    //se obtiene cada usuario con sus valores, y se les añade a la lista de usuarios
+                    // variable que recoge cuántas filas tiene el documento
                     int cont = 0;
 
+                    // instancia de documento donde se almacenará los datos obtenidos de la consulta
                     Documentos objDocumento = new Documentos();
+
                     dr = cmd.ExecuteReader();
 
                     while (dr.Read())
                     {
                         cont++;
+
                         string cadena = dr["doc_id"].ToString();
+                        // si no hay id, se le asigna 0
                         if (cadena == "")
                         {
                             objDocumento.doc_id = 0;
                         }
                         else
                         {
+                            // si cont es 1, significa que nos encontramos en la cabecera del documento, por lo que
+                            // asignamos los datos de Documentos
                             if (cont == 1)
                             {
                                 objDocumento.doc_id = Convert.ToInt64(dr["doc_id"].ToString());
@@ -171,6 +183,7 @@ namespace WebServiceApiRest.Models
                             }
 
                             string cadena2 = dr["ldoc_id"].ToString();
+                            // comprueba que ldoc_id no esté vacío para rellenar los datos de la lista de LDocumentos
                             if (cadena2 != "")
                             {
                                 Ldocumentos ldoc = new Ldocumentos();
@@ -204,6 +217,7 @@ namespace WebServiceApiRest.Models
                                 ldoc.ldoc_err_prn = Convert.ToInt32(dr["ldoc_err_prn"].ToString());
                                 ldoc.ldoc_usuario = Convert.ToInt32(dr["ldoc_usuario"].ToString());
 
+                                // se añade las filas a la instancia de Documentos
                                 objDocumento.listdoc.Add(ldoc);
                             }
                         }
@@ -220,10 +234,13 @@ namespace WebServiceApiRest.Models
 
         public Documentos(Int64 doc_id, int doc_bloqueado)
         {
-            doc_id = doc_id;
-            doc_bloqueado = doc_bloqueado;
+            this.doc_id = doc_id;
+            this.doc_bloqueado = doc_bloqueado;
         }
 
+        // El método actualizar es utilizado para refrescar los datos del Documento cuando se ha recalculado los precios
+        // de los artículos asignados a este. Devuelve un mensaje que estará vacío si todo fue bien, o un mensaje de error
+        // en el caso contrario.
         public string actualizar(MySqlCommand cmdex)
         {
             string mensaje = "";
@@ -257,8 +274,6 @@ namespace WebServiceApiRest.Models
 
                     try
                     {
-
-
                         cmd = new MySqlCommand(sCommand, conexion);
                         cmd.ExecuteNonQuery();
 
@@ -270,7 +285,6 @@ namespace WebServiceApiRest.Models
                         transaction.Rollback();
                     }
                     conexion.Close();
-
                 }
             }
             else
@@ -278,10 +292,11 @@ namespace WebServiceApiRest.Models
                 cmdex.CommandText = sCommand;
                 cmdex.ExecuteNonQuery();
             }
-
             return mensaje;
         }
 
+        // El método recalcularPrecio calcula el nuevo precio total del documento cuando este sufre cambios, como pueden ser
+        // añadir o eliminar artículos, cambiar el precio de los artículos o cambiar la cantidad de los artículos.
         public string recalcularPrecio(int idDocumento, double importe_con_iva, int tipo_iva, double civa, MySqlCommand cmd)
         {
             string stmsg;
@@ -294,7 +309,7 @@ namespace WebServiceApiRest.Models
                 {
                     case 0:
                         {
-                            // normal
+                            // iva normal
                             doc_total1 += importe_con_iva;
                             if (doc_total1 <= 0)
                             {
@@ -315,7 +330,7 @@ namespace WebServiceApiRest.Models
 
                     case 1:
                         {
-                            // reducido
+                            // iva reducido
                             doc_total2 += importe_con_iva;
                             if (doc_total2 <= 0)
                             {
@@ -337,7 +352,7 @@ namespace WebServiceApiRest.Models
 
                     case 2:
                         {
-                            // superreducido
+                            // iva superreducido
                             doc_total3 += importe_con_iva;
                             if (doc_total3 <= 0)
                             {
@@ -358,7 +373,7 @@ namespace WebServiceApiRest.Models
 
                     case 3:
                         {
-                            // exento
+                            // iva exento
                             doc_total4 += importe_con_iva;
                             if (doc_total4 <= 0)
                             {
@@ -377,9 +392,9 @@ namespace WebServiceApiRest.Models
                             break;
                         }
                 }
-                doc_sum_bases = Math.Round(doc_base1 + doc_base2 + doc_base3 + doc_base4, 5);
-                doc_sum_civas = Math.Round(doc_civa1 + doc_civa2 + doc_civa3 + doc_civa4, 5);
-                doc_total = Math.Round(doc_total1 + doc_total2 + doc_total3 + doc_total4, 2);
+                doc_sum_bases = Math.Round(doc_base1 + doc_base2 + doc_base3 + doc_base4, 5); // suma de todas las bases
+                doc_sum_civas = Math.Round(doc_civa1 + doc_civa2 + doc_civa3 + doc_civa4, 5); // suma de todas las cuotas de iva
+                doc_total = Math.Round(doc_total1 + doc_total2 + doc_total3 + doc_total4, 2); // suma de todos los precios totales
                 stmsg = actualizar(cmd); // actualiza documento.
             }
             catch (Exception ex)
@@ -389,12 +404,14 @@ namespace WebServiceApiRest.Models
             return stmsg;
         }
 
+        // Este método es utilizado cuando se accede a una mesa que no tiene artículos asociados, por lo tanto no hay Documento.
+        // crearCabeceraDocumento() crea una nueva cabecera de Documento "limpio" sobre el que añadir artículos a la mesa
         public void crearCabeceraDocumento(int docMesa, int idTerminal)
         {
-            doc_serie = "MESA"; // la serie
-            doc_tipo = "TICKET"; // el tipo
+            doc_serie = "MESA"; 
+            doc_tipo = "TICKET"; 
             doc_fecha = DateTime.Now; // .ToString("yyyy-mm-dd hh:mm:ss")
-            doc_num = (int)ultimoNumero("TICKET", "MESA") + 1; // mirar el último ticket de esta serie y este tipo
+            doc_num = (int)ultimoNumero("TICKET", "MESA") + 1;
             doc_mesa = docMesa;
             doc_terminal = idTerminal;
             doc_cliente = 1;
@@ -432,6 +449,8 @@ namespace WebServiceApiRest.Models
 
         }
 
+        // ultimoNumero() es una función encargada de comprobar cuál es el número correspondido al último documento creado y
+        // de asignar dicho número al documento nuevo
         public static object ultimoNumero(string stTipoDoc, string stserie)
         {
             string sqlMax;
@@ -455,6 +474,8 @@ namespace WebServiceApiRest.Models
             }
         }
 
+        // obtenerIvaEmpresa() se encarga de obtener cuál es el iva que se aplica a la empresa perteneciente de la app.
+        // Este iva será el usado más adelante a la hora de calcular los precios de los artículos en las mesas.
         public int obtenerIvaEmpresa()
         {
             int ivaEmpresa = 0;
@@ -486,6 +507,7 @@ namespace WebServiceApiRest.Models
             return ivaEmpresa;
         }
 
+        // id_documento() es una función que consiste en obtener el id de un documento según su tipo, serie y número
         public static object id_documento(string stTipoDoc, string stserie, int numero)
         {
             string sqlMax = string.Format("SELECT doc_id FROM documentos WHERE doc_tipo='{0}' and doc_serie='{1}' and doc_num={2}", stTipoDoc, stserie, numero);
@@ -504,7 +526,7 @@ namespace WebServiceApiRest.Models
             }
         }
 
-
+        // crearDocumento() se encarga de insertar los datos de una cabecera que se encuentra vacía
         public string crearDocumento()
         {
             // Crear un nuevo registro

@@ -1,35 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebServiceApiRest.Models
 {
+    // la clase Terminal recoge los campos ter_id (identificador), ter_nom (nombre del terminal) y ter_bloqueado (estado de bloqueo del terminal)
+    // con la información de la tabla Terminal de la BD.
     public class Terminal
     {
         [Key]
         public int ter_id { get; set; }
         public string ter_nom { get; set; }
-        //public int ter_caja { get; set; }
-        //public int ter_prn_ticket { get; set; }
-        //public int ter_prn_cocina1 { get; set; }
-        //public int ter_prn_cocina2 { get; set; }
-        //public string ter_param_cajon { get; set; }
         public int ter_bloqueado { get; set; }
-        //public string ter_ruta_copia { get; set; }
-        //public int ter_copia { get; set; }
-        //public int ter_prn_auxiliar2 { get; set; }
-        //public int ter_numero_copias_ticket { get; set; }
-        //public int ter_numero_copias_comanda { get; set; }
-        //public int ter_numero_copias_auxiliar { get; set; }
-        //public int ter_numero_copias_auxiliar2 { get; set; }
-        //public string ter_puerto { get; set; }
-        //public int ter_numero_copias_factura { get; set; }
-        //public string ter_formato_ticket { get; set; }
-        //public string ter_prn_factura { get; set; }
-        //public string ter_nom_pc_user { get; set; }
 
         public Terminal() { }
 

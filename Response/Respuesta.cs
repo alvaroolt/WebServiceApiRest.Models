@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-// la clase Respuesta es utilizada para obtener información de la petición que se realiza (si hubo éxito, un mensaje y datos si hubieran)
+﻿// la clase Respuesta es utilizada para obtener información de la petición que se realiza (si hubo éxito, un mensaje y datos si hubieran)
+// esta clase puede mandar cualquier objeto (o lista de objetos) en Data
 
 namespace WebServiceApiRest.Models.Response
 {

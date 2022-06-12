@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebServiceApiRest.Models
 {
     public class Usuarios
     {
+        // la clase Usuarios recoge todos los campos con la información de la tabla Usuarios de la BD.
         [Key]
         public int user_id { get; set; }
         public string user_nom { get; set; }

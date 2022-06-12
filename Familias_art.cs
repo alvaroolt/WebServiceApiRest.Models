@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebServiceApiRest.Models
 {
+    // la clase Familias_art recoge todos los campos con la información de la tabla Familias_art de la BD.
+    // Estos datos pertenecen a las diferentes categorías de artículos disponibles en el restaurante/empresa.
     public class Familias_art
     {
         [Key]
